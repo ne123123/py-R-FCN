@@ -1,34 +1,12 @@
 # py-R-FCN
-R-FCN: Object Detection via Region-based Fully Convolutional Networks
-
-
-**It is highly recommended to use the [MXNet version of R-FCN/Deformable R-FCN](https://github.com/msracver/Deformable-ConvNets), which supports multi-GPU train/test.**
-
-**WARNING: This code does not support CPU-only mode.** (See https://github.com/Orpine/py-R-FCN/issues/28).
-
-### Disclaimer
+R-FCN: Object Detection via Region-based Fully Convolutional Networks forked from https://github.com/YuwenXiong/py-R-FCN
 
 The official R-FCN code (written in MATLAB) is available [here](https://github.com/daijifeng001/R-FCN).
 
-py-R-FCN is modified from [the offcial R-FCN implementation](https://github.com/daijifeng001/R-FCN) and  [py-faster-rcnn code](https://github.com/rbgirshick/py-faster-rcnn ), and the usage is quite similar to [py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn ).
-
-There are slight differences between py-R-FCN and the official R-FCN implementation.
- - py-R-FCN is ~10% slower at test-time, because some operations execute on the CPU in Python layers (e.g., 90ms / image vs. 99ms / image for ResNet-50)
- - py-R-FCN supports both join training and alternative optimization of R-FCN.
-
 #### Some modification
 
-The original py-faster-rcnn uses class-aware bounding box regression. However, R-FCN use class-agnostic bounding box regression to reduce model complexity. So I add a configuration AGNOSTIC into fast_rcnn/config.py, and the default value is False. You should set it to True both on train and test phase if you want to use class-agnostic training and test. 
-
-OHEM need all rois to select the hard examples, so I changed the sample strategy, set `BATCH_SIZE: -1` for OHEM, otherwise OHEM would not take effect.
-
-In conclusion:
-
-`AGNOSTIC: True` is required for class-agnostic bounding box regression
-
-`BATCH_SIZE: -1` is required for OHEM
-
-And I've already provided two configuration files for you(w/ OHEM and w/o OHEM) under `experiments/cfgs` folder, you could just use them and needn't change anything.
+1. fixed the problem of "TypeError: 'numpy.float64' object cannot be interpreted as an index" caused by numpy version
+2. fixed the problem of error bounding box transformation due to xmin is 0 or ymin is 0
 
 ### License
 
