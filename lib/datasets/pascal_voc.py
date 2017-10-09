@@ -206,7 +206,9 @@ class pascal_voc(imdb):
             bbox = obj.find('bndbox')
             # Make pixel indexes 0-based
             x1 = float(bbox.find('xmin').text) - 1
+            if x1 < 0: x1 = 0.;
             y1 = float(bbox.find('ymin').text) - 1
+            if y1 < 0: y1 = 0.;
             x2 = float(bbox.find('xmax').text) - 1
             y2 = float(bbox.find('ymax').text) - 1
             cls = self._class_to_ind[obj.find('name').text.lower().strip()]
